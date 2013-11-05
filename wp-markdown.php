@@ -98,12 +98,12 @@ class WordPress_Markdown {
 		if($this->is_bar_enabled('comment')){ 
 			add_filter('comment_form_field_comment',array($this,'comment_field'));
 		}
-		if($this->is_bar_enabled('bbpress')){
-			add_action('bbp_theme_before_reply_form_content',array( $this,'pre_textarea_prettify_bbpress_reply'));
-			add_action('bbp_theme_after_reply_form_content',array( $this,'post_textarea_prettify_bbpress_reply'));
-			add_action('bbp_theme_before_topic_form_content',array( $this,'pre_textarea_prettify_bbpress_topic'));
-			add_action('bbp_theme_after_topic_form_content',array( $this,'post_textarea_prettify_bbpress_topic'));
-		}
+//		if($this->is_bar_enabled('bbpress')){
+//			add_action('bbp_theme_before_reply_form_content',array( $this,'pre_textarea_prettify_bbpress_reply'));
+//			add_action('bbp_theme_after_reply_form_content',array( $this,'post_textarea_prettify_bbpress_reply'));
+//			add_action('bbp_theme_before_topic_form_content',array( $this,'pre_textarea_prettify_bbpress_topic'));
+//			add_action('bbp_theme_after_topic_form_content',array( $this,'post_textarea_prettify_bbpress_topic'));
+//		}
 
 		//Register scripts
 		add_action('wp_enqueue_scripts', array($this,'register_scripts'));
@@ -431,65 +431,65 @@ class WordPress_Markdown {
 	}
 
 
-	/*
-	* Adds html for the textareas to make them PageDown compatible 
-       * Adds the PageDown 'button bar'
-	*/
-	function pre_textarea_prettify_bbpress_reply(){
-		if($this->is_Markdownable('reply')){
-			echo self::pre_textarea_prettify('bbp_reply_content');
-		}
-	}
-	function post_textarea_prettify_bbpress_reply(){
-		if($this->is_Markdownable('reply')){
-			echo self::post_textarea_prettify('bbp_reply_content');
-		}
-	}
-	function pre_textarea_prettify_bbpress_topic(){
-		if($this->is_Markdownable('topic')){
-			echo self::pre_textarea_prettify('bbp_topic_content');
-		}
-	}
-	function post_textarea_prettify_bbpress_topic(){
-		if($this->is_Markdownable('topic')){
-			echo self::post_textarea_prettify('bbp_topic_content');
-		}
-	}
-
-	function comment_field($html){
-		if($this->is_Markdownable('comment')){
-			$html =self::pre_textarea_prettify('comment').$html.self::post_textarea_prettify('comment');
-		}
-		return $html;
-	}
-
-	function pre_textarea_prettify($id=""){
-			wp_enqueue_script('markdown');
-			wp_enqueue_style('md_style');
-		$id = esc_attr($id);
-       	 return "<div class='wmd-panel'><div id='wmd-button-bar{$id}'></div>
-				<div id='wmd-button-bar-help'>
-        <p>
-            To create code blocks or other preformatted text, indent by four spaces:
-        </p>
-        <pre class='wmd-help'><span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>This will be displayed in a monospaced font. The first four 
-<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>spaces will be stripped off, but all other whitespace
-<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>will be preserved.
-<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>Markdown is turned off in code blocks:
-<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span> [This is not a link](http://example.com)
-</pre>
-        <p>
-            To create not a block, but an inline code span, use backticks:
-        </p>
-        <pre class='wmd-help'>Here is some inline `code`.</pre>
-	For more help see <a href='http://daringfireball.net/projects/markdown/syntax' rel='no-follow'> http://daringfireball.net/projects/markdown/syntax</a>
-				</div>";
-	}
-	function post_textarea_prettify($id=""){
-		$id = esc_attr($id);
-       	 return "<div id='wmd-preview{$id}' class='wmd-panel wmd-preview prettyprint'></div></div>";
-	}
+//	/*
+//	* Adds html for the textareas to make them PageDown compatible 
+//       * Adds the PageDown 'button bar'
+//	*/
+//	function pre_textarea_prettify_bbpress_reply(){
+//		if($this->is_Markdownable('reply')){
+//			echo self::pre_textarea_prettify('bbp_reply_content');
+//		}
+//	}
+//	function post_textarea_prettify_bbpress_reply(){
+//		if($this->is_Markdownable('reply')){
+//			echo self::post_textarea_prettify('bbp_reply_content');
+//		}
+//	}
+//	function pre_textarea_prettify_bbpress_topic(){
+//		if($this->is_Markdownable('topic')){
+//			echo self::pre_textarea_prettify('bbp_topic_content');
+//		}
+//	}
+//	function post_textarea_prettify_bbpress_topic(){
+//		if($this->is_Markdownable('topic')){
+//			echo self::post_textarea_prettify('bbp_topic_content');
+//		}
+//	}
+//
+//	function comment_field($html){
+//		if($this->is_Markdownable('comment')){
+//			$html =self::pre_textarea_prettify('comment').$html.self::post_textarea_prettify('comment');
+//		}
+//		return $html;
+//	}
+//
+//	function pre_textarea_prettify($id=""){
+//			wp_enqueue_script('markdown');
+//			wp_enqueue_style('md_style');
+//		$id = esc_attr($id);
+//       	 return "<div class='wmd-panel'><div id='wmd-button-bar{$id}'></div>
+//				<div id='wmd-button-bar-help'>
+//        <p>
+//            To create code blocks or other preformatted text, indent by four spaces:
+//        </p>
+//        <pre class='wmd-help'><span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>This will be displayed in a monospaced font. The first four 
+//<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>spaces will be stripped off, but all other whitespace
+//<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>will be preserved.
+//<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+//<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>Markdown is turned off in code blocks:
+//<span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span> [This is not a link](http://example.com)
+//</pre>
+//        <p>
+//            To create not a block, but an inline code span, use backticks:
+//        </p>
+//        <pre class='wmd-help'>Here is some inline `code`.</pre>
+//	For more help see <a href='http://daringfireball.net/projects/markdown/syntax' rel='no-follow'> http://daringfireball.net/projects/markdown/syntax</a>
+//				</div>";
+//	}
+//	function post_textarea_prettify($id=""){
+//		$id = esc_attr($id);
+//       	 return "<div id='wmd-preview{$id}' class='wmd-panel wmd-preview prettyprint'></div></div>";
+//	}
 
 	/*
 	* Register the scripts for the PageDown editor
