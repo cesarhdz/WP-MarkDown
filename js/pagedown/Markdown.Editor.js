@@ -1177,6 +1177,8 @@
                 var keyCodeStr = String.fromCharCode(keyCode).toLowerCase();
 
                 switch (keyCodeStr) {
+                    case "e":
+                        doClick(buttons.section);
                     case "b":
                         doClick(buttons.bold);
                         break;
@@ -1185,9 +1187,6 @@
                         break;
                     case "l":
                         doClick(buttons.link);
-                        break;
-                    case 'm':
-                    	doClick(buttons.more);
                         break;
                     case "q":
                         doClick(buttons.quote);
@@ -1408,7 +1407,7 @@
                 buttonRow.appendChild(spacer);
                 xPosition += 25;
             }
-
+            
             buttons.bold = makeButton("wmd-bold-button", "Strong <strong> Ctrl+B", "0px", bindCommand("doBold"));
             buttons.italic = makeButton("wmd-italic-button", "Emphasis <em> Ctrl+I", "-20px", bindCommand("doItalic"));
             makeSpacer(1);
@@ -1429,13 +1428,8 @@
             }));
             buttons.heading = makeButton("wmd-heading-button", "Heading <h1>/<h2> Ctrl+H", "-160px", bindCommand("doHeading"));
             buttons.hr = makeButton("wmd-hr-button", "Horizontal Rule <hr> Ctrl+R", "-180px", bindCommand("doHorizontalRule"));
-            
-            if( typeof ajaxurl != 'undefined' ){
-            	buttons.more = makeButton("wmd-more-button", "More <hr> Ctrl+M", "-260px", bindCommand("doMoreTag"));
-            	makeSpacer( '3-admin' );
-            }else{
-            	makeSpacer(3);
-            }
+            buttons.section = makeButton("wmd-section-button", "Start a New Section Ctrl+E", "-260px", bindCommand("doSection"));
+            makeSpacer(3);
             buttons.undo = makeButton("wmd-undo-button", "Undo - Ctrl+Z", "-200px", null);
             buttons.undo.execute = function (manager) { if (manager) manager.undo(); };
 
@@ -1909,6 +1903,18 @@
         }
     };
 
+    commandProto.doSection = function(chunk, postProcessing){
+        
+        chunk.selection = ('' == chunk.selection)
+                        ? 'Set Title'
+                        : chunk.selection;
+
+        chunk.startTag = '<section markdown="block" id="';
+        chunk.endTag    =   '">\n\n# ' + chunk.selection + ' #' + '\n\n'
+                        + '\n</section>\n';
+        chunk.skipLines(0, 0, true);
+    };
+
     commandProto.doCode = function (chunk, postProcessing) {
 
         var hasTextBefore = /\S[ ]*$/.test(chunk.before);
@@ -2135,12 +2141,6 @@
 
     commandProto.doHorizontalRule = function (chunk, postProcessing) {
         chunk.startTag = "----------\n";
-        chunk.selection = "";
-        chunk.skipLines(2, 1, true);
-    }
-    
-    commandProto.doMoreTag = function (chunk, postProcessing) {
-        chunk.startTag = "<!--more-->\n";
         chunk.selection = "";
         chunk.skipLines(2, 1, true);
     }
